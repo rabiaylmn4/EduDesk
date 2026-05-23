@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: edudesk.rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  redis:
+    image: redis:alpine
+    container_name: edudesk.redis
+    ports:
+      - "6379:6379"
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    container_name: edudesk.apigateway
+    ports:
+      - "7200:7200"
+    depends_on:
+      - rabbitmq
+      - redis
+
+  identity-service:
+    build:
+      context: .
+      dockerfile: identity-service/Dockerfile
+    container_name: edudesk.identityservice
+    ports:
+      - "5001:5001"
+    depends_on:
+      - rabbitmq
+
+  support-service:
+    build:
+      context: .
+      dockerfile: support-service/Dockerfile
+    container_name: edudesk.supportservice
+    ports:
+      - "5003:5003"
+    depends_on:
+      - rabbitmq
