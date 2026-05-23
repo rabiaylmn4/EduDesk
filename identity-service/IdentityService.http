@@ -1,0 +1,15 @@
+@IdentityService_HostAddress = http://localhost:5001
+
+### 1. KULLANICI KAYIT TESTÝ (REGISTER)
+POST {{IdentityService_HostAddress}}/api/auths/register
+Content-Type: application/json
+
+{
+  "email": "rabia@edudesk.com",
+  "password": "Password123!"
+}
+
+###
+
+### 2. KULLANICI GÝRÝÞ TESTÝ (LOGIN)
+POST {{IdentityService_HostAddress}}/api/auths/login?email=rabia@edudesk.com&password=Password123!
